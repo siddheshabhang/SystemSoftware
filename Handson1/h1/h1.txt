@@ -1,0 +1,14 @@
+#Commands
+ln -s target_file softlink_name
+ln target_file hardlink_name
+mkfifo fifo_name
+mknod fifo_name p
+
+#Using System Calls in C
+symlink() -> for creating softlink
+link() -> for creating hardlink
+mkfifo ->function for creating named pipe
+mknod -> for creating regular and special file
+
+#major number -> identifies the device driver
+#minor number -> identifies the specific device handled by that drivers

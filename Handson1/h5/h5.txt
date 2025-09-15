@@ -1,0 +1,5 @@
+#Command to access open file
+lsof -p <pid>
+
+#sprintf()
+C library function similar to printf() but instead printing output to terminal it converts output to a string which we can save in string variable

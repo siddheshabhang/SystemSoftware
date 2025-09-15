@@ -1,0 +1,13 @@
+#Open Syscall
+Open System call is used to open a existing file or even create a new one if required.
+open(file_name, flags, permission);
+
+#Flags used in open
+O_RDONLY 
+O_WRONLY
+O_RDWR
+O_CREAT
+O_EXCL
+O_APPEND
+O_TRUNC
+

@@ -1,0 +1,6 @@
+#Commands to check process status
+top -pid 7890
+
+#Commands to run C file
+./a.out &
+#& keeps process running in bg1
