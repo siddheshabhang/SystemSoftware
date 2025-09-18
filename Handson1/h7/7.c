@@ -8,36 +8,49 @@ Date: 16 Aug 2025
 ===================================================================================================================
 */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include<stdio.h>
+#include<unistd.h>
+#include<errno.h>
+#include<string.h>
+#include<fcntl.h>
+#include<stdlib.h>
 
-int main() {
-    FILE *src, *dest;
-    char ch;
+int main()
+{
+	int fd_src, fd_dest;
+	ssize_t bytesRead;
+	char buffer[1024];
+	
+	fd_src = open("ogfile.txt", O_RDONLY);
+	if(fd_src < 0)
+	{
+		write(2, strerror(errno), strlen(strerror(errno)));
+		exit(1);
+	}
+	
+	fd_dest = open("copyfile.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if(fd_dest < 0)
+	{
+		write(2, strerror(errno), strlen(strerror(errno)));
+		close(fd_src);
+		exit(1);
+	}
 
-    src = fopen("sourcefile.txt", "r");
-    if (src == NULL) {
-        printf("Error: Cannot open sourcefile.txt\n");
-        return 1;
-    }
+	while((bytesRead = read(fd_src, buffer, 1024)) > 0){
+		if(write(fd_dest, buffer, bytesRead)!= bytesRead){
+		write(2, "Write error\n", 12);
+		close(fd_src);
+		close(fd_dest);
+		exit(1);
+	}
+	}
+	if (bytesRead < 0) {
+    write(2, "Read error\n", 11);
+}
+	close(fd_src);
+close(fd_dest);
+	return 0;
 
-    dest = fopen("copyfile.txt", "w");
-    if (dest == NULL) {
-        printf("Error: Cannot open copyfile.txt\n");
-        fclose(src);
-        return 1;
-    }
-
-    while ((ch = fgetc(src)) != EOF) {
-        fputc(ch, dest);
-    }
-
-    printf("File copied successfully.\n");
-
-    fclose(src);
-    fclose(dest);
-
-    return 0;
 }
 
 /*
