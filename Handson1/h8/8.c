@@ -9,40 +9,45 @@ Date: 16 Aug 2025
 ===================================================================================================================
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>    
+#include <unistd.h>   // read(), close()
+#include <fcntl.h>    // open()
+#include <stdlib.h>   // exit()
+#include <stdio.h>    // printf(), perror()
 
-int main(int argc, char *argv[]) {
-    if (argc != 2) {
-        write(STDERR_FILENO, "Usage: ./a.out <filename>\n", 27);
-        return 1;
-    }
+#define BUFFER_SIZE 256
 
-    int fd = open(argv[1], O_RDONLY);
+int main() {
+    int fd;
+    ssize_t bytesRead;
+    char buffer[BUFFER_SIZE];
+    char line[BUFFER_SIZE];
+    int lineIndex = 0;
+
+    fd = open("input.txt", O_RDONLY);
     if (fd == -1) {
         perror("Error opening file");
-        return 1;
+        exit(1);
     }
 
-    char buffer[1024];
-    ssize_t bytesRead;
-    while ((bytesRead = read(fd, buffer, sizeof(buffer) - 1)) > 0) {
-        buffer[bytesRead] = '\0';     
-        write(STDOUT_FILENO, buffer, bytesRead); 
+    while ((bytesRead = read(fd, buffer, sizeof(buffer))) > 0) {
+        for (int i = 0; i < bytesRead; i++) {
+            if (buffer[i] == '\n') {                  line[lineIndex] = '\0';
+                printf("%s\n", line);
+                lineIndex = 0;
+            } else {
+                line[lineIndex++] = buffer[i];
+            }
+        }
     }
 
-    if (bytesRead == -1) {
-        perror("Read error");
-        close(fd);
-        return 1;
+    if (lineIndex > 0) {
+        line[lineIndex] = '\0';
+        printf("%s\n", line);
     }
 
     close(fd);
     return 0;
 }
-
 /*
 ==================================================================================================================
 
