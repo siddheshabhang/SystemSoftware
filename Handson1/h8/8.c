@@ -9,40 +9,39 @@ Date: 16 Aug 2025
 ===================================================================================================================
 */
 
-#include <unistd.h>   // read(), close()
-#include <fcntl.h>    // open()
-#include <stdlib.h>   // exit()
-#include <stdio.h>    // printf(), perror()
+#include <unistd.h>  
+#include <fcntl.h>   
+#include <stdlib.h>  
+#include <stdio.h>   
 
 #define BUFFER_SIZE 256
 
 int main() {
     int fd;
     ssize_t bytesRead;
-    char buffer[BUFFER_SIZE];
+    char ch;
     char line[BUFFER_SIZE];
     int lineIndex = 0;
 
     fd = open("input.txt", O_RDONLY);
     if (fd == -1) {
-        perror("Error opening file");
+        write(2, "Error opening file\n", 19); 
         exit(1);
     }
 
-    while ((bytesRead = read(fd, buffer, sizeof(buffer))) > 0) {
-        for (int i = 0; i < bytesRead; i++) {
-            if (buffer[i] == '\n') {                  line[lineIndex] = '\0';
-                printf("%s\n", line);
-                lineIndex = 0;
-            } else {
-                line[lineIndex++] = buffer[i];
-            }
+    while ((bytesRead = read(fd, &ch, 1)) > 0) {
+        if (ch == '\n') { 
+            write(1, line, lineIndex);
+            write(1, "\n", 1);
+            lineIndex = 0;
+        } else {
+            line[lineIndex++] = ch;
         }
     }
 
     if (lineIndex > 0) {
-        line[lineIndex] = '\0';
-        printf("%s\n", line);
+        write(1, line, lineIndex);
+        write(1, "\n", 1);
     }
 
     close(fd);

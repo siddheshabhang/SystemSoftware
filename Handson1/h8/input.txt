@@ -1,0 +1,7 @@
+🔑 Key Points
+	•	open(“file”, O_RDONLY) → returns file descriptor.
+	•	read(fd, buf, size) → reads raw bytes into buf.
+	•	write(STDOUT_FILENO, buf, size) → directly writes to console.
+	•	Loop detects newline (\n) to separate and print lines.
+	•	Handles last line if file does not end with newline.
+	•	close(fd) → mandatory to release file descriptor.
