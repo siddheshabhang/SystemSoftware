@@ -47,14 +47,14 @@ int main() {
     }
 
     freopen("/dev/null", "r", stdin);
-    freopen(LOG_FILE, "a", stdout);
-    freopen(ERROR_LOG, "a", stderr);
+    freopen(LOG_FILE, "w", stdout);
+    freopen(ERROR_LOG, "w", stderr);
 
     while (1) {
         time_t now = time(NULL);
         struct tm *tm_info = localtime(&now);
 
-        if (tm_info->tm_hour == 12 && tm_info->tm_min == 28) {
+        if (tm_info->tm_hour == 10 && tm_info->tm_min ==13) {
             printf("[%s] Time matched! Running script...\n", asctime(tm_info));
 		fflush(stdout);
             run_script();

@@ -28,9 +28,7 @@ int main() {
                getpid(), getppid());
     }
     else {
- 
-        printf("I am the parent process. My PID = %d, My Child's PID = %d\n",
-               getpid(), pid);
+        printf("I am the parent process. My PID = %d, My Child's PID = %d\n",getpid(), pid);
     }
 
     return 0;
