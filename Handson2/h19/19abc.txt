@@ -1,0 +1,28 @@
+/*
+============================================================================
+Name : 19abc.txt
+Author : Siddhesh Abhang.
+Description : 
+19. Create a FIFO file by
+a. mknod command
+b. mkfifo command
+c. use strace command to find out, which command (mknod or mkfifo) is better.
+Date: 23th September 2025
+============================================================================
+*/
+
+mknod myfifo_via_mknod p
+mkfifo myfifo_via_mkfifo 
+strace mknod myfifo_via_mknod p
+strace mkfifo myfifo_via_mkfifo
+
+/*
+============================================================================
+
+Output:-
+
+mknod("myfifo_via_mknod", S_IFIFO|0600) = 0
+mkfifo("myfifo_by_mkfifo", 0666) = 0
+
+============================================================================
+*/
